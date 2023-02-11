@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include <map>
 
 
 /** Complete the setIntersection and setUnion functions below
@@ -13,20 +14,32 @@
 template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
-
-
-
-
-
+  typename std::set<T>::iterator it;
+  std::set<T> retSet;
+  for(it = s1.begin(); it != s1.end(); it++){
+    if(s2.find(*it) != s2.end()){
+      retSet.insert(*it);
+    }
+  }
+  return retSet;
 }
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
+  typename std::set<T>::iterator it;
+  typename std::set<T>::iterator it2;
 
-
-
-
-
+  std::set<T> retSet;
+  for(it = s1.begin(); it != s1.end(); it++){
+    retSet.insert(*it);
+  }
+  for(it2 = s2.begin(); it2 != s2.end(); it2++){
+    if(retSet.find(*it2) == retSet.end()){
+      retSet.insert(*it2);
+    }
+  }
+  
+  return retSet;
 }
 
 /***********************************************/

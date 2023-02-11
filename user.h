@@ -2,6 +2,9 @@
 #define USER_H
 #include <iostream>
 #include <string>
+#include <deque>
+
+#include "product.h"
 
 /**
  * Implements User functionality and information storage
@@ -17,6 +20,7 @@ public:
     std::string getName() const;
     void deductAmount(double amt);
     virtual void dump(std::ostream& os);
+    std::deque<Product*> cart_;
 
 private:
     std::string name_;

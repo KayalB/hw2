@@ -9,6 +9,8 @@
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
+#include "mydatastore.h"
+
 
 using namespace std;
 struct ProdNameSorter {
@@ -29,7 +31,7 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
+    MyDataStore ds;
 
 
 
@@ -99,8 +101,74 @@ int main(int argc, char* argv[])
                 }
                 done = true;
             }
-	    /* Add support for other commands here */
+	          /* Add support for other commands here */
+            // TEMPORARY, JUST TO GET MY BEARINGS
+            else if ( cmd == "ADD") {
+                string username;
+                size_t search_hit_number;
 
+                // Might have to check in case it fails
+                // If we can sucessfully get in the username and the search hit number
+                if(ss >> username && ss >> search_hit_number){
+                  if(search_hit_number <= hits.size() && search_hit_number > 0 && ds.checkIfUserExists(username)){
+                    for(int i = 0; i < int(username.size()); i++){
+                      username[i] = tolower(username[i]);
+                    }
+                    ds.addToCart(hits[search_hit_number - 1], username);
+                    // cout << "Added to Cart!" << endl;
+                  }
+                  else{
+                    cout << "Invalid request" << endl;
+                  }
+                }
+                else{
+                  cout << "Invalid request" << endl;
+                }
+            }
+
+
+
+            else if ( cmd == "VIEWCART") {
+                string username;
+
+                // Might have to check in case it fails
+                // If we can sucessfully get in the username and the search hit number
+                if(ss >> username){
+                  if(ds.checkIfUserExists(username)){
+                    ds.viewCart(username);
+                    // cout << "Added to Cart!" << endl;
+                  }
+                  else{
+                    cout << "Invalid username" << endl;
+                  }
+                }
+                else{
+                  cout << "Invalid username" << endl;
+                }
+            }
+
+
+
+            else if ( cmd == "BUYCART") {
+                string username;
+
+                // Might have to check in case it fails
+                // If we can sucessfully get in the username and the search hit number
+                if(ss >> username){
+                  if(ds.checkIfUserExists(username)){
+                    ds.buyCart(username);
+                    // cout << "Added to Cart!" << endl;
+                  }
+                  else{
+                    cout << "Invalid username" << endl;
+                  }
+                }
+                else{
+                  cout << "Invalid username" << endl;
+                }
+            }
+
+            
 
 
 
@@ -112,6 +180,13 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
+
+
+// for(i=0; i <5; i++) {
+
+//     cout <<  "ishita hacked ur laptop" << endl;
+//     cout << "You forgot te endl. I added it for u :)" << endl;
+// }
 
 void displayProducts(vector<Product*>& hits)
 {
